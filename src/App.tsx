@@ -1,4 +1,5 @@
 import { Header } from "./components";
+import { getData } from "./services/api";
 
 function App() {
   return (
