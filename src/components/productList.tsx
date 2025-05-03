@@ -16,6 +16,7 @@ export const ProductList: React.FC<CategoryListProps> = ({ products }) => {
           {filteredProducts.map((product, index) => (
             <div
               key={index}
+              onClick={() => setSelectedProduct(product)}
               className="flex flex-col p-2 bg-gray-200 rounded-2xl cursor-pointer border-2 border-transparent hover:border-gray-300 "
             >
               <div className="flex gap-3 p-2">

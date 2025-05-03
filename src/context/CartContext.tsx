@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { IProduct } from "../services/api";
 
 export interface ICartProduct extends IProduct {
@@ -15,7 +15,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [cartProducts, setCartProducts] = useState<ICartProduct[]>([]);
-
   const addToCart = (product: IProduct, quantity: number) => {
     setCartProducts((prev) => {
       const existingProducts = prev.find((p) => p.id === product.id);

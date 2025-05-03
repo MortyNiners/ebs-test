@@ -10,7 +10,7 @@ export const ProductModal: React.FC<IProductModal> = ({ product, onClose }) => {
   if (!product) return null;
 
   return (
-    <div className="h-full w-full absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 bg-black/15">
+    <div className="h-full w-full absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 bg-black/15 z-20">
       <div className="flex justify-center items-center h-full ">
         <div className="flex bg-gray-200 ">
           <div className="flex items-center justify-center bg-white ">
