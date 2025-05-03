@@ -4,15 +4,18 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import "./index.css";
 import App from "./App.tsx";
 import { ProductProvider } from "./context/ProductContext.tsx";
+import { CartProvider } from "./context/CartContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ProductProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />} />
-        </Routes>
-      </BrowserRouter>
-    </ProductProvider>
+    <CartProvider>
+      <ProductProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<App />} />
+          </Routes>
+        </BrowserRouter>
+      </ProductProvider>
+    </CartProvider>
   </StrictMode>
 );
