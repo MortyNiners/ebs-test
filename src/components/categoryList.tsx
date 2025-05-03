@@ -1,7 +1,7 @@
 import { useProduct } from "../context/ProductContext";
 import { IProduct } from "../services/api";
 import ArrowDown from "../assets/arrow_down.svg";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 export interface CategoryListProps {
   products: IProduct[];
 }
@@ -9,6 +9,7 @@ export interface CategoryListProps {
 export const CategoryList: React.FC<CategoryListProps> = ({ products }) => {
   const { activeCategory, setActiveCategory, setSortBy, sortBy } = useProduct();
   const [blockHidden, setBlockHidden] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const cleanDublicate = Array.from(
     new Set(products.map((a) => a.category))
@@ -20,7 +21,19 @@ export const CategoryList: React.FC<CategoryListProps> = ({ products }) => {
   const toggleBlockVisibility = () => {
     setBlockHidden((prev) => !prev);
   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setBlockHidden(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   return (
     <div className="flex flex-col mx-2 mt-6">
       <h2 className="font-bold text-[28px]">Categories</h2>
@@ -40,18 +53,18 @@ export const CategoryList: React.FC<CategoryListProps> = ({ products }) => {
             </button>
           ))}
         </div>
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
           <button
             className="flex justify-center items-center bg-gray-200  px-4 py-2 rounded-2xl cursor-pointer font-medium border-2 border-transparent hover:border-gray-300 "
             onClick={() => toggleBlockVisibility()}
           >
-            Sort by: {sortBy}{" "}
+            Sort by: {sortBy}
             <img src={ArrowDown} alt="Arrow down" className="w-6 " />
           </button>
           <div
             className={
               blockHidden
-                ? "absolute right-0 top-[50px] bg-gray-300 rounded-xl border-2 border-gray-200 overflow-hidden"
+                ? "absolute right-0 top-[50px] bg-gray-300 rounded-xl border-2 border-gray-200 overflow-hidden shadow-lg"
                 : "hidden"
             }
           >

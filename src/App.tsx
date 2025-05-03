@@ -1,5 +1,5 @@
-import { Header } from "./components";
 import { CategoryList } from "./components/categoryList";
+import { Header } from "./components/header";
 import { ProductList } from "./components/productList";
 import { useProduct } from "./context/ProductContext";
 
