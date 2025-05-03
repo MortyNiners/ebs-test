@@ -1,14 +1,16 @@
-import { getData } from "./services/api";
+import { Header } from "./components";
+import { CategoryList } from "./components/categoryList";
+import { ProductList } from "./components/productList";
+import { useProduct } from "./context/ProductContext";
 
 function App() {
+  const { products } = useProduct();
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>Welcome to the Front-End Developer Test!</h1>
-      <p>
-        We wish you the best of luck. Please make sure to read the README file
-        for instructions.
-      </p>
-    </div>
+    <section className="max-w-[1600px] mx-auto">
+      <Header />
+      <CategoryList products={products} />
+      <ProductList products={products} />
+    </section>
   );
 }
 
