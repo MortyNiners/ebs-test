@@ -1,8 +1,8 @@
-import Cart from "./../../public/cart.svg";
+import Cart from "./../assets/cart.svg";
 
 export const Header = () => {
   return (
-    <header className="flex justify-between items-center mt-4 py-4 px-4 rounded-3xl bg-gray-200">
+    <header className="flex justify-between items-center mt-4 mx-2 py-4 px-4 rounded-3xl bg-gray-200">
       <div>
         <span className="text-[28px] font-semibold">EBS Test</span>
       </div>

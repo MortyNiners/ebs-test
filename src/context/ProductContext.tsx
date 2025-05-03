@@ -1,9 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getData, Product } from "../services/api";
+import { getData, IProduct } from "../services/api";
 
 interface IProductContext {
-  products: Product[];
+  products: IProduct[];
   loading: boolean;
+  activeCategory: string;
+  setActiveCategory: React.Dispatch<React.SetStateAction<string>>;
+  sortBy: string;
+  setSortBy: React.Dispatch<React.SetStateAction<string>>;
   fetchProducts: () => Promise<void>;
 }
 
@@ -12,8 +16,10 @@ const ProductContext = createContext<IProductContext | undefined>(undefined);
 export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [sortBy, setSortBy] = useState<string>("Best related");
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -29,8 +35,19 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     fetchProducts();
   }, []);
+
   return (
-    <ProductContext.Provider value={{ products, fetchProducts, loading }}>
+    <ProductContext.Provider
+      value={{
+        products,
+        fetchProducts,
+        loading,
+        activeCategory,
+        setActiveCategory,
+        sortBy,
+        setSortBy,
+      }}
+    >
       {children}
     </ProductContext.Provider>
   );
