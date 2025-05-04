@@ -12,7 +12,7 @@ export const Cart: React.FC<ICartComponent> = ({ product, visibility }) => {
     <div
       className={
         visibility && product.length > 0
-          ? "absolute z-10 top-22 right-2 bg-gray-200 shadow-lg max-w-[420px]  rounded-xl"
+          ? "absolute z-10 top-22 right-2 bg-gray-200 shadow-2xl shadow-black/70 max-w-[420px]  rounded-xl border-3 border-gray-100"
           : "hidden"
       }
     >
