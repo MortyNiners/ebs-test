@@ -10,7 +10,7 @@ export const ProductModal: React.FC<IProductModal> = ({ product, onClose }) => {
   if (!product) return null;
 
   return (
-    <div className="h-full w-full absolute top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 bg-black/15 z-20">
+    <div className="h-full w-full fixed top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 bg-black/15 z-20">
       <div className="flex justify-center items-center h-full ">
         <div className="flex bg-gray-200 ">
           <div className="flex items-center justify-center bg-white ">
@@ -33,7 +33,7 @@ export const ProductModal: React.FC<IProductModal> = ({ product, onClose }) => {
                 <span className="inline-block mt-4 bg-green-500/80 text-white rounded-lg p-2 px-2 font-medium text-lg">
                   Price: <b>{product.price}$</b>
                 </span>
-                <AddProductButton product={product} />
+                <AddProductButton product={product} onClose={onClose} />
               </div>
               <div>
                 <img
