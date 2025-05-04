@@ -1,4 +1,5 @@
 import { ICartProduct, useCart } from "../context/CartContext";
+import { calculateTotalPrice } from "../utils/calcTotalPrice";
 interface ICartComponent {
   product: ICartProduct[];
   visibility: boolean;
@@ -59,6 +60,11 @@ export const Cart: React.FC<ICartComponent> = ({ product, visibility }) => {
         ))}
       </div>
       <div className="flex flex-col justify-center items-center my-1">
+        <div className="flex w-full p-4">
+          <span>Total:</span>
+          <div className="w-full border-b-2 border-dotted text-gray-400" />
+          <span>{calculateTotalPrice(product)}$</span>
+        </div>
         <button
           className="bg-gray-50 p-2 my-1 min-w-[95%] rounded-xl font-semibold cursor-pointer hover:bg-red-600 hover:text-white"
           onClick={() => emptyCart()}
