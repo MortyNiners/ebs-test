@@ -49,11 +49,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const removeCartItem = (productId: number) => {
     setCartProducts((prev) => {
       const quantityCheck = prev.filter((item) => item.id === productId);
-      if (quantityCheck[0].quantity > 1) {
+      if (quantityCheck[0].quantity > 0) {
         return prev.map((p) =>
           p.id === productId ? { ...p, quantity: p.quantity-- } : p
         );
-      } else if (quantityCheck[0].quantity === 1) {
+      } else if (quantityCheck[0].quantity === 0) {
         return prev.filter((item) => item.id !== productId);
       }
       return prev;
