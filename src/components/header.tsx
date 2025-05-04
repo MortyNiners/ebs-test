@@ -4,6 +4,7 @@ import { Cart } from "./cart";
 
 export const Header = () => {
   const { cartProducts } = useCart();
+
   return (
     <>
       <div className="relative">
