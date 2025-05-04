@@ -1,6 +1,7 @@
 import { IProduct } from "../services/api";
 import CloseButton from "../assets/close_button.svg";
 import { AddProductButton } from "./addProductButton";
+import { useEffect, useRef } from "react";
 interface IProductModal {
   product: IProduct | null;
   onClose: () => void;
@@ -8,11 +9,24 @@ interface IProductModal {
 
 export const ProductModal: React.FC<IProductModal> = ({ product, onClose }) => {
   if (!product) return null;
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   return (
     <div className="h-full w-full fixed top-1/2 left-1/2  -translate-x-1/2 -translate-y-1/2 bg-black/15 z-20">
       <div className="flex justify-center items-center h-full ">
-        <div className="flex bg-gray-200 ">
+        <div className="flex bg-gray-200" ref={dropdownRef}>
           <div className="flex items-center justify-center bg-white ">
             <img
               src={product.image}
