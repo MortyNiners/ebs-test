@@ -7,7 +7,11 @@ export const Header = () => {
   const { cartProducts } = useCart();
   const [blockHidden, setBlockHidden] = useState<boolean>(false);
   const toggleBlockVisibility = () => {
-    setBlockHidden((prev) => !prev);
+    if (cartProducts.length > 0) {
+      setBlockHidden((prev) => !prev);
+    } else {
+      setBlockHidden(false);
+    }
   };
   return (
     <>

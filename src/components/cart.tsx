@@ -1,19 +1,22 @@
-import { ICartProduct } from "../context/CartContext";
+import { ICartProduct, useCart } from "../context/CartContext";
 interface ICartComponent {
   product: ICartProduct[];
   visibility: boolean;
 }
 export const Cart: React.FC<ICartComponent> = ({ product, visibility }) => {
+  const { emptyCart, removeCartItem, addCartItem, removeSpecificCartItem } =
+    useCart();
+
   return (
     <div
       className={
-        visibility
-          ? "absolute z-10 top-22 right-2 bg-gray-300 shadow-lg max-w-[420px]  rounded-xl"
+        visibility && product.length > 0
+          ? "absolute z-10 top-22 right-2 bg-gray-200 shadow-lg max-w-[420px]  rounded-xl"
           : "hidden"
       }
     >
       <h5 className="font-semibold my-2 ml-2">Cart Items</h5>
-      <div className="max-h-[50vh] overflow-hidden overflow-y-auto">
+      <div className="max-h-[50vh] overflow-hidden overflow-y-auto w-[400px]">
         {product.map((item, index) => (
           <div
             key={index}
@@ -30,13 +33,22 @@ export const Cart: React.FC<ICartComponent> = ({ product, visibility }) => {
                 <div className="flex justify-between mt-2">
                   <span>Quantity: {item.quantity}</span>
                   <div className="grid grid-cols-3 mr-2">
-                    <button className="bg-gray-200 px-2  text-center border-r--1 border-gray-100 cursor-pointer">
+                    <button
+                      className="bg-gray-200 px-2  text-center border-r-2 border-gray-50 cursor-pointer"
+                      onClick={() => addCartItem(item.id)}
+                    >
                       +
                     </button>
-                    <button className="bg-gray-200 px-2  text-center border-x-1 border-gray-100 cursor-pointer">
+                    <button
+                      className="bg-gray-200 px-2  text-center border-x-2 border-gray-50 cursor-pointer"
+                      onClick={() => removeCartItem(item.id)}
+                    >
                       -
                     </button>
-                    <button className="bg-gray-200 px-2  text-center border-l-1 border-gray-100 cursor-pointer">
+                    <button
+                      className="bg-gray-200 px-2  text-center border-l-2 border-gray-50 cursor-pointer hover:bg-red-600 hover:text-white"
+                      onClick={() => removeSpecificCartItem(item.id)}
+                    >
                       x
                     </button>
                   </div>
@@ -47,10 +59,13 @@ export const Cart: React.FC<ICartComponent> = ({ product, visibility }) => {
         ))}
       </div>
       <div className="flex flex-col justify-center items-center my-1">
-        <button className="bg-gray-100 p-2 my-1 min-w-[95%] rounded-xl font-semibold cursor-pointer hover:bg-red-600 hover:text-white">
+        <button
+          className="bg-gray-50 p-2 my-1 min-w-[95%] rounded-xl font-semibold cursor-pointer hover:bg-red-600 hover:text-white"
+          onClick={() => emptyCart()}
+        >
           Remove all
         </button>
-        <button className="bg-gray-100 p-2 my-1 min-w-[95%] rounded-xl font-semibold cursor-pointer hover:bg-green-600 hover:text-white">
+        <button className="bg-gray-50 p-2 my-1 min-w-[95%] rounded-xl font-semibold cursor-pointer hover:bg-green-600 hover:text-white">
           Checkout
         </button>
       </div>
