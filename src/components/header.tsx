@@ -1,10 +1,18 @@
+import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import CartImage from "./../assets/cart.svg";
 import { Cart } from "./cart";
 
 export const Header = () => {
   const { cartProducts } = useCart();
-
+  const [blockHidden, setBlockHidden] = useState<boolean>(false);
+  const toggleBlockVisibility = () => {
+    if (cartProducts.length > 0) {
+      setBlockHidden((prev) => !prev);
+    } else {
+      setBlockHidden(false);
+    }
+  };
   return (
     <>
       <div className="relative">
@@ -13,7 +21,10 @@ export const Header = () => {
             <span className="text-[28px] font-semibold">EBS Test</span>
           </div>
           <div>
-            <div className="relative bg-blue-400 p-6 rounded-full cursor-pointer">
+            <div
+              className="relative bg-blue-400 p-6 rounded-full cursor-pointer"
+              onClick={() => toggleBlockVisibility()}
+            >
               <img
                 src={CartImage}
                 alt="Cart"
@@ -31,7 +42,7 @@ export const Header = () => {
             </div>
           </div>
         </header>
-        <Cart product={cartProducts} />
+        <Cart product={cartProducts} visibility={blockHidden} />
       </div>
     </>
   );

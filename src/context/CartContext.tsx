@@ -8,6 +8,10 @@ export interface ICartProduct extends IProduct {
 interface ICartContext {
   cartProducts: ICartProduct[];
   addToCart: (product: IProduct, quantity: number) => void;
+  addCartItem: (productId: number) => void;
+  removeCartItem: (productId: number) => void;
+  removeSpecificCartItem: (productId: number) => void;
+  emptyCart: () => void;
 }
 
 const CartContext = createContext<ICartContext | undefined>(undefined);
@@ -35,9 +39,47 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
       return [...prev, { ...product, quantity }];
     });
   };
+  const addCartItem = (productId: number) => {
+    setCartProducts((prev) =>
+      prev.map((p) =>
+        p.id === productId ? { ...p, quantity: p.quantity++ } : p
+      )
+    );
+  };
+  const removeCartItem = (productId: number) => {
+    setCartProducts((prev) => {
+      const quantityCheck = prev.filter((item) => item.id === productId);
+      if (quantityCheck[0].quantity > 1) {
+        return prev.map((p) =>
+          p.id === productId ? { ...p, quantity: p.quantity-- } : p
+        );
+      } else if (quantityCheck[0].quantity === 1) {
+        return prev.filter((item) => item.id !== productId);
+      }
+      return prev;
+    });
+  };
+  const removeSpecificCartItem = (productId: number) => {
+    setCartProducts((prev) => prev.filter((p) => p.id !== productId));
+  };
+
+  const emptyCart = () => {
+    setCartProducts([]);
+    localStorage.removeItem("cart");
+    console.log(cartProducts);
+  };
 
   return (
-    <CartContext.Provider value={{ cartProducts, addToCart }}>
+    <CartContext.Provider
+      value={{
+        cartProducts,
+        addToCart,
+        emptyCart,
+        removeCartItem,
+        addCartItem,
+        removeSpecificCartItem,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

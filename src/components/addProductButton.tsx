@@ -2,10 +2,16 @@ import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { IProduct } from "../services/api";
 
-export const AddProductButton: React.FC<{ product: IProduct }> = ({
+interface IProductButton {
+  product: IProduct;
+  onClose: () => void;
+}
+
+export const AddProductButton: React.FC<IProductButton> = ({
   product,
+  onClose,
 }) => {
-  const { addToCart, cartProducts } = useCart();
+  const { addToCart } = useCart();
   const [quantity, setQuantity] = useState<number>(1);
 
   const quantityHandler = (value: "+" | "-") => {
@@ -38,7 +44,10 @@ export const AddProductButton: React.FC<{ product: IProduct }> = ({
       </div>
       <button
         className="w-full text-center bg-black text-white mt-2 p-4 hover:bg-green-500/80 cursor-pointer"
-        onClick={() => addToCart(product, quantity)}
+        onClick={() => {
+          addToCart(product, quantity);
+          onClose();
+        }}
       >
         Add to cart
       </button>
