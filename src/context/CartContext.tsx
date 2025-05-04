@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { IProduct } from "../services/api";
+import { localCartStorage } from "../utils/localCartStorage";
 
 export interface ICartProduct extends IProduct {
   quantity: number;
@@ -14,7 +15,14 @@ const CartContext = createContext<ICartContext | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [cartProducts, setCartProducts] = useState<ICartProduct[]>([]);
+  const [cartProducts, setCartProducts] = useState<ICartProduct[]>(() => {
+    return localCartStorage([]);
+  });
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartProducts));
+  }, [cartProducts]);
+
   const addToCart = (product: IProduct, quantity: number) => {
     setCartProducts((prev) => {
       const existingProducts = prev.find((p) => p.id === product.id);
